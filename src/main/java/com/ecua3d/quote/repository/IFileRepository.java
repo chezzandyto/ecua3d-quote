@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IFileRepository extends CrudRepository<FileEntity, Integer> {
-    List<FileEntity> findAll();
     Boolean existsByNameFile(String nameFile);
     List<FileEntity> findByNameFile(String fileName);
-    Optional<FileEntity> findByFileId(Integer fileId);
+    FileEntity findByFileId(Integer fileId);
 }

@@ -1,8 +1,10 @@
 package com.ecua3d.quote.cloud;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,5 +40,18 @@ public class AmazonS3Service {
             log.error("Error converting multipartFile to file", e);
         }
         return convertedFile;
+    }
+
+
+    public byte[] downloadFile(String pathFile) {
+        S3Object s3Object = s3Client.getObject(bucketName, pathFile);
+        S3ObjectInputStream inputStream = s3Object.getObjectContent();
+        try {
+            byte[] content = IOUtils.toByteArray(inputStream);
+            return content;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

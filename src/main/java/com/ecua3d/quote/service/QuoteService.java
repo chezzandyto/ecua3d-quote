@@ -69,7 +69,7 @@ public class QuoteService implements IQuoteService{
         newEntity.setQualityId(quoteDTO.getQualityId());
         List<FileEntity> files = new ArrayList<>();
         for (MultipartFile file : quoteDTO.getFiles()) {
-            String fileName = "/" + baseFolder + "/" + getDate() + "/" + (System.currentTimeMillis() / 1000) + "_" + file.getOriginalFilename();
+            String fileName = baseFolder + "/" + getDate() + "/" + (System.currentTimeMillis() / 1000) + "_" + file.getOriginalFilename();
             amazonS3Service.uploadFile(file, fileName);
             files.add(iFileService.saveNewFile(FileDTO.builder()
                             .fileName(file.getOriginalFilename())
