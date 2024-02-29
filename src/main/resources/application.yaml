@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path: /quote
+  port: 9001
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.100.17:5432/ecua3d
+    username: postgres
+    password: homeassistant
+  jpa:
+    show-sql: false
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.100.17:8080/realms/ecua3d
+          jwt-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 30MB
+
+token:
+  converter:
+    principal-attribute: preferred_username
+    resource-id: demo-app
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${ACCESS-KEY}
+      secret-key: ${SECRET-KEY}
+    region:
+      static: ${REGION}
+    bucketName: ${BUCKET-NAME}
+    base-folder: ${BASE-FOLDER}
