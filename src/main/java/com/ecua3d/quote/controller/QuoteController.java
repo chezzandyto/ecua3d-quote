@@ -30,4 +30,8 @@ public class QuoteController {
     public ResponseEntity<QuoteResponse> saveNewQuote(@Valid @ModelAttribute QuoteDTO body) throws EntityExistsException, IOException {
         return new ResponseEntity<>(iQuoteService.saveNewQuote(body),HttpStatus.CREATED);
     }
+    @GetMapping("/{state}")
+    public ResponseEntity<List<QuoteResponse>> getAllQuoteByState(@PathVariable Integer state){
+        return new ResponseEntity<List<QuoteResponse>>(iQuoteService.findAllByState(state), HttpStatus.OK);
+    }
 }

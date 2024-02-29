@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface IQuoteService {
     List<QuoteResponse> findAll();
+    List<QuoteResponse> findAllByState(Integer state);
     QuoteResponse convertToQuoteResponse(QuoteEntity quoteEntity);
     QuoteResponse saveNewQuote(QuoteDTO quoteDTO) throws EntityExistsException, IOException;
     QuoteEntity findByQuoteId(Integer quoteId) throws EntityNoExistsException;

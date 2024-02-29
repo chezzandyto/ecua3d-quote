@@ -27,6 +27,7 @@ public class QuoteEntity extends AuditingFields{
     private Integer colorId;
     @Column(name = "quality_id")
     private Integer qualityId;
+    private Integer state;
     @OneToMany
     @JoinTable(
             name="quott_quote_file",

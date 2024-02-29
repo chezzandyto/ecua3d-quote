@@ -44,6 +44,12 @@ public class QuoteService implements IQuoteService{
     }
 
     @Override
+    public List<QuoteResponse> findAllByState(Integer state) {
+        List<QuoteEntity> quoteEntities = (List<QuoteEntity>) iQuoteRepository.findAllByState(state);
+        return quoteEntities.stream().map(this::convertToQuoteResponse).collect(Collectors.toList());
+    }
+
+    @Override
     public QuoteResponse convertToQuoteResponse(QuoteEntity quoteEntity) {
         return QuoteResponse.builder()
                 .quoteId(quoteEntity.getQuoteId())
@@ -52,7 +58,7 @@ public class QuoteService implements IQuoteService{
                 .phone(quoteEntity.getPhone())
                 .filamentId(quoteEntity.getFilamentId())
                 .qualityId(quoteEntity.getQualityId())
-                .fileNames(quoteEntity.getFiles().stream().map(FileEntity::getNameFile).collect(Collectors.toList()))
+                .files(quoteEntity.getFiles().stream().map(fileEntity -> iFileService.convertToFileResponse(fileEntity)).collect(Collectors.toList()))
                 .build();
     }
 

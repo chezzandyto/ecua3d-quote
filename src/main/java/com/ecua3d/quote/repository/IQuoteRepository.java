@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface IQuoteRepository extends CrudRepository<QuoteEntity, Integer> {
     List<QuoteEntity> findAll();
+    List<QuoteEntity> findAllByState(Integer state);
     Optional<QuoteEntity> findByQuoteId(Integer quoteId);
 }
