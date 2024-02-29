@@ -74,20 +74,13 @@ COMMENT ON COLUMN quote.quott_quote.created_from_ip IS 'IP address of the comput
 COMMENT ON COLUMN quote.quott_quote.updated_from_ip IS 'IP address of the equipment from where the last change was made';
 COMMENT ON CONSTRAINT quotpr_pk_qte ON quote.quott_quote  IS 'Restriction PK quote';
 
+ALTER TABLE "quote".quott_quote RENAME COLUMN calidad_id TO quality_id;
+
 -- Quote_File
 CREATE TABLE quote.quott_quote_file (
 	quote_file_id BIGINT DEFAULT nextval('quote.quots_quote_file'),
 	quote_id BIGINT NOT NULL,
 	file_id BIGINT NOT NULL,
-	
-	status VARCHAR(1) NOT NULL DEFAULT 1,
-	created_by_user VARCHAR(36) NOT NULL,
-	created_date TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	last_modified_by_user VARCHAR(36),
-	last_modified_date TIMESTAMP WITH TIME ZONE,
-	created_from_ip VARCHAR(64) NOT NULL DEFAULT '127.0.0.1',
-	updated_from_ip VARCHAR(64),
-	CONSTRAINT quotpr_pk_qt_fl PRIMARY KEY (quote_file_id)
 );
 
 COMMENT ON TABLE quote.quott_quote_file IS 'Quote and File Table';
@@ -95,11 +88,4 @@ COMMENT ON COLUMN quote.quott_quote_file.quote_file_id IS 'Quote and File id';
 COMMENT ON COLUMN quote.quott_quote_file.quote_id IS 'relation with quote table';
 COMMENT ON COLUMN quote.quott_quote_file.file_id IS 'relation with file table';
 
-COMMENT ON COLUMN quote.quott_quote_file.status IS 'Record status';
-COMMENT ON COLUMN quote.quott_quote_file.created_by_user IS 'Id of the user who created the record';
-COMMENT ON COLUMN quote.quott_quote_file.created_date IS 'Record creation date';
-COMMENT ON COLUMN quote.quott_quote_file.last_modified_by_user IS 'Id of the user who made the last modification';
-COMMENT ON COLUMN quote.quott_quote_file.last_modified_date IS 'Date of the last modification of the record';
-COMMENT ON COLUMN quote.quott_quote_file.created_from_ip IS 'IP address of the computer from where the record was created';
-COMMENT ON COLUMN quote.quott_quote_file.updated_from_ip IS 'IP address of the equipment from where the last change was made';
-COMMENT ON CONSTRAINT quotpr_pk_qt_fl ON quote.quott_quote_file IS 'Restriction PK Quote File';
+
