@@ -9,7 +9,10 @@ import com.ecua3d.quote.repository.IQuoteRepository;
 import com.ecua3d.quote.vo.FileDTO;
 import com.ecua3d.quote.vo.QuoteDTO;
 import com.ecua3d.quote.vo.QuoteResponse;
+import com.ecua3d.quote.vo.constant.QuoteState;
+import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class QuoteService implements IQuoteService{
 
     @Value("${cloud.aws.base-folder}")
@@ -36,6 +40,9 @@ public class QuoteService implements IQuoteService{
 
     @Autowired
     private IFileService iFileService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Override
     public List<QuoteResponse> findAll() {
@@ -64,7 +71,7 @@ public class QuoteService implements IQuoteService{
 
     @Override
     @Transactional
-    public QuoteResponse saveNewQuote(QuoteDTO quoteDTO) throws EntityExistsException, IOException {
+    public QuoteResponse saveNewQuote(QuoteDTO quoteDTO) throws EntityExistsException, IOException, MessagingException {
         QuoteEntity newEntity = new QuoteEntity();
         newEntity.setName(quoteDTO.getName());
         newEntity.setEmail(quoteDTO.getEmail());
@@ -73,6 +80,7 @@ public class QuoteService implements IQuoteService{
         newEntity.setMaterialId(quoteDTO.getMaterialId());
         newEntity.setColorId(quoteDTO.getColorId());
         newEntity.setQualityId(quoteDTO.getQualityId());
+        newEntity.setState(QuoteState.PENDING.value);
         List<FileEntity> files = new ArrayList<>();
         for (MultipartFile file : quoteDTO.getFiles()) {
             String fileName = baseFolder + "/" + getDate() + "/" + (System.currentTimeMillis() / 1000) + "_" + file.getOriginalFilename();
@@ -84,6 +92,14 @@ public class QuoteService implements IQuoteService{
         }
         newEntity.setFiles(files);
         iQuoteRepository.save(newEntity);
+        try {
+            emailService.sendEmail(newEntity.getEmail(),newEntity.getName(), files.stream().map(FileEntity::getNameFile).collect(Collectors.toList()));
+        } catch (Exception e) {
+            log.error("No se pudo enviar mail con quoteId: {} al mail: {}",newEntity.getQuoteId(), newEntity.getEmail());
+            log.error(e.getMessage());
+            e.printStackTrace();
+        }
+
         return convertToQuoteResponse(newEntity);
     }
 

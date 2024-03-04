@@ -20,6 +20,24 @@ spring:
       enabled: true
       max-file-size: 10MB
       max-request-size: 30MB
+  mail:
+    debug: true
+    default-encoding: UTF-8
+    host: smtp.mailgun.org
+    port: 2525
+    username: ${MAIL-USER-NAME}
+    password: ${MAIL-PASSWORD}
+    smtp:
+      auth: true
+      starttls:
+        enable: true
+        connectiontimeout: 4000
+        timeout: 4000
+        writetimeout: 4000
+  thymeleaf:
+    prefix:
+      classpath: /templates-emails/
+    suffix: .html
 
 token:
   converter:
@@ -35,3 +53,12 @@ cloud:
       static: ${REGION}
     bucketName: ${BUCKET-NAME}
     base-folder: ${BASE-FOLDER}
+
+quote:
+  email:
+    company-name: ${EMAIL-COMPANY-NAME}
+    contact-number: ${EMAIL-CONTACT-NUMBER}
+    logo-email: https://efuoxyi.stripocdn.email/content/guids/CABINET_ee77850a5a9f3068d9355050e69c76d26d58c3ea2927fa145f0d7a894e624758/images/group_4076323.png
+    logo-whatsapp: https://e7.pngegg.com/pngimages/621/882/png-clipart-whatsapp-email-message-computer-icons-whatsapp-multimedia-messaging-service-logo.png
+    logo-company: https://media.licdn.com/dms/image/D4E0BAQEJsKbbDucFCw/company-logo_200_200/0/1694219859503?e=2147483647&v=beta&t=fcHRWqd_HTQkmnwbzmK71zHq1guWEEXD4dicfr9DEcs
+

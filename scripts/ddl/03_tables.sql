@@ -75,6 +75,9 @@ COMMENT ON COLUMN quote.quott_quote.updated_from_ip IS 'IP address of the equipm
 COMMENT ON CONSTRAINT quotpr_pk_qte ON quote.quott_quote  IS 'Restriction PK quote';
 
 ALTER TABLE "quote".quott_quote RENAME COLUMN calidad_id TO quality_id;
+ALTER TABLE "quote".quott_quote ADD state int8 NOT NULL;
+COMMENT ON COLUMN "quote".quott_quote.state IS '1 PENDING, 2 DONE';
+
 
 -- Quote_File
 CREATE TABLE quote.quott_quote_file (

@@ -4,6 +4,7 @@ import com.ecua3d.quote.exception.EntityExistsException;
 import com.ecua3d.quote.service.IQuoteService;
 import com.ecua3d.quote.vo.QuoteDTO;
 import com.ecua3d.quote.vo.QuoteResponse;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,7 @@ public class QuoteController {
         return new ResponseEntity<List<QuoteResponse>>(iQuoteService.findAll(), HttpStatus.OK);
     }
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<QuoteResponse> saveNewQuote(@Valid @ModelAttribute QuoteDTO body) throws EntityExistsException, IOException {
+    public ResponseEntity<QuoteResponse> saveNewQuote(@Valid @ModelAttribute QuoteDTO body) throws EntityExistsException, IOException, MessagingException {
         return new ResponseEntity<>(iQuoteService.saveNewQuote(body),HttpStatus.CREATED);
     }
     @GetMapping("/{state}")
