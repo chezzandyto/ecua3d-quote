@@ -1,6 +1,7 @@
 package com.ecua3d.quote.service;
 
 import com.ecua3d.quote.client.ICorporativeClient;
+import com.ecua3d.quote.security.SecurityFeignRequestInterceptor;
 import com.ecua3d.quote.vo.FilamentToQuoteResponse;
 import com.ecua3d.quote.vo.QualityToQuoteResponse;
 import jakarta.mail.MessagingException;
@@ -13,7 +14,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -29,6 +33,8 @@ public class EmailService {
 
     @Autowired
     private ICorporativeClient iCorporativeClient;
+//    @Autowired
+//    private SecurityFeignRequestInterceptor securityFeignRequestInterceptor;
 
     @Value("${quote.email.company-name}")
     String companyName;
@@ -97,6 +103,7 @@ public class EmailService {
         String materialName = "";
         String colorName = "";
         String qualityName = "";
+//        String token = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization");
         try{
             ResponseEntity<FilamentToQuoteResponse> responseFilament = iCorporativeClient.getByFilamentId(filamentId);
             materialName = responseFilament.getBody().getMaterial();
