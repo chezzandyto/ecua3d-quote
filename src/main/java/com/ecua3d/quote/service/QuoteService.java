@@ -80,6 +80,7 @@ public class QuoteService implements IQuoteService{
         newEntity.setMaterialId(quoteDTO.getMaterialId());
         newEntity.setColorId(quoteDTO.getColorId());
         newEntity.setQualityId(quoteDTO.getQualityId());
+        newEntity.setComment(quoteDTO.getComment());
         newEntity.setState(QuoteState.PENDING.value);
         List<FileEntity> files = new ArrayList<>();
         for (MultipartFile file : quoteDTO.getFiles()) {
@@ -94,6 +95,7 @@ public class QuoteService implements IQuoteService{
         iQuoteRepository.save(newEntity);
         try {
             emailService.sendEmail(newEntity.getEmail(),newEntity.getName(), files.stream().map(FileEntity::getNameFile).collect(Collectors.toList()));
+            emailService.sendEmailToCompany(newEntity.getQuoteId(),newEntity.getName(),newEntity.getEmail(), newEntity.getPhone(), files.stream().map(FileEntity::getNameFile).collect(Collectors.toList()), newEntity.getFilamentId(), newEntity.getQualityId(),newEntity.getComment());
         } catch (Exception e) {
             log.error("No se pudo enviar mail con quoteId: {} al mail: {}",newEntity.getQuoteId(), newEntity.getEmail());
             log.error(e.getMessage());

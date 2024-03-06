@@ -23,6 +23,7 @@ public class QuoteDTO {
     private Integer materialId;
     private Integer colorId;
     private Integer filamentId;
+    private String comment;
     private Integer qualityId;
     private List<MultipartFile> files;
 }

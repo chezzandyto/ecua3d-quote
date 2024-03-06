@@ -61,4 +61,9 @@ quote:
     logo-email: https://efuoxyi.stripocdn.email/content/guids/CABINET_ee77850a5a9f3068d9355050e69c76d26d58c3ea2927fa145f0d7a894e624758/images/group_4076323.png
     logo-whatsapp: https://e7.pngegg.com/pngimages/621/882/png-clipart-whatsapp-email-message-computer-icons-whatsapp-multimedia-messaging-service-logo.png
     logo-company: https://media.licdn.com/dms/image/D4E0BAQEJsKbbDucFCw/company-logo_200_200/0/1694219859503?e=2147483647&v=beta&t=fcHRWqd_HTQkmnwbzmK71zHq1guWEEXD4dicfr9DEcs
+    mail-company: ${EMAIL-COMPANY-MAIL}
+    mail-quote: ${EMAIL-QUOTE-MAIL}
+  url:
+    corporative: ${URL-CORPORATIVE}
+
 
